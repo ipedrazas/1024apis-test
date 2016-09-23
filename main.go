@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -11,15 +10,6 @@ import (
 	"strconv"
 	"time"
 )
-
-// EnvironmentFlags is the default set of environment flags, parsed
-// from os.Environ().
-var EnvironmentFlags = flag.NewFlagSet("environment", flag.ExitOnError)
-
-// Lookup for env in EnvVars
-func Lookup(name string) *flag.Flag {
-	return EnvironmentFlags.Lookup(name)
-}
 
 // Receive params:
 // WAIT between sequence of requests
