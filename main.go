@@ -12,22 +12,15 @@ import (
 )
 
 // Receive params:
-// WAIT between sequence of requests
+// WAIT ms of wait between sequence of requests
 // NUM number of services to test
 // BATCH number of tests per batch
 func main() {
+	wait, err := strconv.Atoi(os.Getenv("WAIT"))
+	top, err := strconv.Atoi(os.Getenv("BATCH"))
+	num, err := strconv.Atoi(os.Getenv("NUM"))
+	checkError("Params have to be a number", err)
 
-	swait := os.Getenv("WAIT")
-	wait, err := strconv.Atoi(swait)
-	if wait < 100 {
-		wait = wait * 1000
-	}
-	snum := os.Getenv("NUM")
-	batch := os.Getenv("BATCH")
-	top, err := strconv.Atoi(batch)
-	checkError("BATCH has to be a number", err)
-	num, err := strconv.Atoi(snum)
-	checkError("NUM has to be a number", err)
 	for {
 		for i := 0; i < top; i++ {
 			key := random(1, num)
@@ -46,13 +39,13 @@ func main() {
 		}
 		time.Sleep(time.Duration(wait) * time.Millisecond)
 	}
-
 }
 
 func random(min, max int) int {
 	rand.Seed(time.Now().UTC().UnixNano())
 	return rand.Intn(max-min) + min
 }
+
 func checkError(message string, err error) {
 	if err != nil {
 		log.Fatal(message, err)
